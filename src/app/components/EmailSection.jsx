@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from "react";
 import GithubIcon from "../../../public/github-icon.png";
 import LinkedinIcon from "../../../public/Linkedin-logo.png";
@@ -8,6 +8,7 @@ import emailjs from "emailjs-com";
 
 const EmailSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     // Initialize EmailJS
@@ -18,6 +19,14 @@ const EmailSection = () => {
     e.preventDefault();
 
     const form = e.target;
+    const email = form.email.value;
+
+    if (!email.endsWith("@gmail.com")) {
+      setEmailError("Please enter a valid @gmail.com email address.");
+      return;
+    }
+
+    setEmailError("");
 
     emailjs.sendForm(
       "service_gwb7xvn",
@@ -53,31 +62,35 @@ const EmailSection = () => {
           try my best to get back to you!
         </p>
         <div className="socials flex flex-row gap-2">
-        <Link href="https://github.com/GhugareSanika">
-          <div className="relative">
-            <Image 
-              src={GithubIcon} 
-              alt="Github Icon" 
-              className="transition-transform transform hover:scale-125 border-2 border-transparent hover:border-red-600 bg-black hover:bg-custom-bg-color shadow-sm hover:shadow-custom-shadow" 
-            />
-          </div>
-        </Link>
-        <Link href="https://www.linkedin.com/in/sanika-ghugare-6158a0288/">
-          <div className="relative">
-            <Image 
-              src={LinkedinIcon} 
-              alt="Linkedin Icon"
-              className="transition-transform transform hover:scale-150 border-2 border-transparent hover:border-red-600 bg-black hover:bg-custom-bg-color shadow-sm hover:shadow-custom-shadow" 
-            />
-          </div>
-        </Link>
-</div>
-
+          <Link href="https://github.com/GhugareSanika">
+            <div className="relative">
+              <Image 
+                src={GithubIcon} 
+                alt="Github Icon" 
+                className="transition-transform transform hover:scale-125 border-2 border-transparent hover:border-red-600 bg-black hover:bg-custom-bg-color shadow-sm hover:shadow-custom-shadow" 
+              />
+            </div>
+          </Link>
+          <Link href="https://www.linkedin.com/in/sanika-ghugare-6158a0288/">
+            <div className="relative">
+              <Image 
+                src={LinkedinIcon} 
+                alt="Linkedin Icon"
+                className="transition-transform transform hover:scale-150 border-2 border-transparent hover:border-red-600 bg-black hover:bg-custom-bg-color shadow-sm hover:shadow-custom-shadow" 
+              />
+            </div>
+          </Link>
+        </div>
       </div>
       <div>
         {emailSubmitted && (
           <p className="text-green-500 text-sm mb-4">
             Email sent successfully!
+          </p>
+        )}
+        {emailError && (
+          <p className="text-red-500 text-sm mb-4">
+            {emailError}
           </p>
         )}
         <form className="flex flex-col" onSubmit={handleSubmit}>
@@ -94,7 +107,7 @@ const EmailSection = () => {
               id="email"
               required
               className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
-              placeholder="jacob@google.com"
+              placeholder="jacob@gmail.com"
             />
           </div>
           <div className="mb-6">
